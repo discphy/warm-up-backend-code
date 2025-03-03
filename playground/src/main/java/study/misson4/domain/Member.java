@@ -13,4 +13,8 @@ public class Member {
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
+
+    public boolean hasNotInfo() {
+        return name.isEmpty() || email.isEmpty() || phoneNumber.isEmpty();
+    }
 }
