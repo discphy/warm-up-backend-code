@@ -1,4 +1,4 @@
-package study.misson4;
+package study.misson4.domain;
 
 import java.util.List;
 
@@ -14,15 +14,15 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public int getTotalPrice() {
-        return totalPrice;
-    }
-
     public boolean hasCustomerInfo() {
         return member != null;
+    }
+
+    public boolean notExistItems() {
+        return items.isEmpty();
+    }
+
+    public boolean invalidTotalPrice() {
+        return totalPrice < 0;
     }
 }
