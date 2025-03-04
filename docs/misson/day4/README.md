@@ -297,6 +297,8 @@ public class Main {
 
 **[DIP 적용]**
 
++ 인스턴스 생성 시, 구현 클래스가 아닌 추상화에 의존하도록 적용하였다. 
+
 ```java
 public class Main {
 
