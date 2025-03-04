@@ -230,7 +230,7 @@ public class CustomOrder implements Order {
 
     @Override
     public void refund() {
-        throw new UnsupportedOperationException("맞춤 제작 주문은 환불이 불가능 합니다."); // ISP 위반 🚨`
+        throw new UnsupportedOperationException("맞춤 제작 주문은 환불이 불가능 합니다."); // ISP 위반 🚨
     }
 }
 ```
@@ -289,7 +289,7 @@ public class CustomOrder implements Order, Shippable { // ISP 적용 ✅
 public class Main {
 
     public static void main(String[] args) {
-        CustomOrder order = new CustomOrder(); // DIP 위반 🚨`
+        CustomOrder order = new CustomOrder(); // DIP 위반 🚨
         order.pay();
     }
 }
