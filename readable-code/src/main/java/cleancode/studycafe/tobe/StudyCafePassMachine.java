@@ -1,10 +1,9 @@
 package cleancode.studycafe.tobe;
 
+import cleancode.studycafe.tobe.config.StudyCafeConfig;
 import cleancode.studycafe.tobe.exception.AppException;
-import cleancode.studycafe.tobe.io.InputHandler;
-import cleancode.studycafe.tobe.io.OutputHandler;
-import cleancode.studycafe.tobe.io.provider.LockerPassFileProvider;
-import cleancode.studycafe.tobe.io.provider.SeatPassFileProvider;
+import cleancode.studycafe.tobe.io.handler.InputHandler;
+import cleancode.studycafe.tobe.io.handler.OutputHandler;
 import cleancode.studycafe.tobe.model.pass.StudyCafePassType;
 import cleancode.studycafe.tobe.model.pass.locker.StudyCafeLockerPass;
 import cleancode.studycafe.tobe.model.pass.locker.StudyCafeLockerPasses;
@@ -18,10 +17,17 @@ import java.util.Optional;
 
 public class StudyCafePassMachine {
 
-    private final InputHandler inputHandler = new InputHandler();
-    private final OutputHandler outputHandler = new OutputHandler();
-    private final SeatPassProvider seatPassProvider = new SeatPassFileProvider();
-    private final LockerPassProvider lockerPassProvider = new LockerPassFileProvider();
+    private final InputHandler inputHandler;
+    private final OutputHandler outputHandler;
+    private final SeatPassProvider seatPassProvider;
+    private final LockerPassProvider lockerPassProvider;
+
+    public StudyCafePassMachine(StudyCafeConfig config) {
+        this.inputHandler = config.getInputHandler();
+        this.outputHandler = config.getOutputHandler();
+        this.seatPassProvider = config.getSeatPassProvider();
+        this.lockerPassProvider = config.getLockerPassProvider();
+    }
 
     public void run() {
         try {
