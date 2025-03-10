@@ -1,17 +1,59 @@
 package cleancode.studycafe.tobe.model.pass;
 
+import cleancode.studycafe.tobe.exception.AppException;
+import cleancode.studycafe.tobe.format.PassTypeFormatter;
 import cleancode.studycafe.tobe.model.pass.seat.StudyCafeSeatPass;
+import cleancode.studycafe.tobe.select.PassTypeSelectable;
 
-public enum StudyCafePassType {
+import java.util.Arrays;
 
-    HOURLY("시간 단위 이용권"),
-    WEEKLY("주 단위 이용권"),
-    FIXED("1인 고정석");
+public enum StudyCafePassType implements PassTypeSelectable, PassTypeFormatter {
+
+    HOURLY("시간 단위 이용권") {
+        @Override
+        public boolean selected(String userInput) {
+            return "1".equals(userInput);
+        }
+
+        @Override
+        public String format(StudyCafePass pass) {
+            return String.format("%s시간권 - %d원", pass.getDuration(), pass.getPrice());
+        }
+    },
+    WEEKLY("주 단위 이용권") {
+        @Override
+        public boolean selected(String userInput) {
+            return "2".equals(userInput);
+        }
+
+        @Override
+        public String format(StudyCafePass pass) {
+            return String.format("%s주권 - %d원", pass.getDuration(), pass.getPrice());
+        }
+    },
+    FIXED("1인 고정석") {
+        @Override
+        public boolean selected(String userInput) {
+            return "3".equals(userInput);
+        }
+
+        @Override
+        public String format(StudyCafePass pass) {
+            return String.format("%s주권 - %d원", pass.getDuration(), pass.getPrice());
+        }
+    };
 
     private final String description;
 
     StudyCafePassType(String description) {
         this.description = description;
+    }
+
+    public static StudyCafePassType findBy(String userInput) {
+        return Arrays.stream(values())
+            .filter(passType -> passType.selected(userInput))
+            .findFirst()
+            .orElseThrow(() -> new AppException("잘못된 입력입니다."));
     }
 
     public boolean isSamePassType(StudyCafeSeatPass pass) {
