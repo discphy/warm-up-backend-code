@@ -2,6 +2,7 @@ package cleancode.studycafe.tobe;
 
 import cleancode.studycafe.tobe.config.StudyCafeConfig;
 import cleancode.studycafe.tobe.exception.AppException;
+import cleancode.studycafe.tobe.exception.ProvideException;
 import cleancode.studycafe.tobe.io.handler.InputHandler;
 import cleancode.studycafe.tobe.io.handler.OutputHandler;
 import cleancode.studycafe.tobe.model.pass.StudyCafePassType;
@@ -44,6 +45,8 @@ public class StudyCafePassMachine {
             outputHandler.showPassOrderSummary(order);
         } catch (AppException e) {
             outputHandler.showSimpleMessage(e.getMessage());
+        } catch (ProvideException e) {
+            outputHandler.showSimpleMessage("이용권을 제공받을 수 없습니다.");
         } catch (Exception e) {
             outputHandler.showSimpleMessage("알 수 없는 오류가 발생했습니다.");
         }

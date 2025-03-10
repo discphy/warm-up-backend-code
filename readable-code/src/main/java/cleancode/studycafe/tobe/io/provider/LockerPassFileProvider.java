@@ -1,5 +1,6 @@
 package cleancode.studycafe.tobe.io.provider;
 
+import cleancode.studycafe.tobe.exception.ProvideException;
 import cleancode.studycafe.tobe.io.provider.support.CsvFileReadSupport;
 import cleancode.studycafe.tobe.model.pass.locker.StudyCafeLockerPasses;
 import cleancode.studycafe.tobe.model.provider.ReadLockerPasses;
@@ -20,7 +21,7 @@ public class LockerPassFileProvider implements LockerPassProvider {
 
             return readSeatPasses.toPasses();
         } catch (IOException e) {
-            throw new RuntimeException("파일을 읽는데 실패하였습니다.", e);
+            throw new ProvideException(e.getMessage());
         }
     }
 }
