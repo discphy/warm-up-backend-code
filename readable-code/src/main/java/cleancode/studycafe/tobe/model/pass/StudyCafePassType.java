@@ -1,4 +1,6 @@
-package cleancode.studycafe.tobe.model;
+package cleancode.studycafe.tobe.model.pass;
+
+import cleancode.studycafe.tobe.model.pass.seat.StudyCafeSeatPass;
 
 public enum StudyCafePassType {
 
@@ -12,7 +14,7 @@ public enum StudyCafePassType {
         this.description = description;
     }
 
-    public boolean isSamePassType(StudyCafePass pass) {
+    public boolean isSamePassType(StudyCafeSeatPass pass) {
         return this.equals(pass.getPassType());
     }
 }
