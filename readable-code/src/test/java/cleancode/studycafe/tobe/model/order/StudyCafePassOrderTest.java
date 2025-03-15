@@ -58,7 +58,7 @@ class StudyCafePassOrderTest {
 
     @DisplayName("존재하지 않는 사물함 패스를 가져온다.")
     @Test
-    void getLockerPassWithNotPresentLockerPass() {
+    void getLockerPassWithoutLockerPass() {
         // given
         StudyCafeSeatPass seatPass = StudyCafeSeatPass.of(StudyCafePassType.FIXED, 4, 11000, 0.1);
         StudyCafePassOrder order = StudyCafePassOrder.of(seatPass, null);
