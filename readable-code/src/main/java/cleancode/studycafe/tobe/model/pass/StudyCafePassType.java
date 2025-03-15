@@ -1,47 +1,14 @@
 package cleancode.studycafe.tobe.model.pass;
 
-import cleancode.studycafe.tobe.exception.AppException;
-import cleancode.studycafe.tobe.format.PassTypeFormatter;
-import cleancode.studycafe.tobe.model.pass.seat.StudyCafeSeatPass;
-import cleancode.studycafe.tobe.select.PassTypeSelectable;
+import java.util.Set;
 
-import java.util.Arrays;
+public enum StudyCafePassType {
 
-public enum StudyCafePassType implements PassTypeSelectable, PassTypeFormatter {
+    HOURLY("시간 단위 이용권"),
+    WEEKLY("주 단위 이용권"),
+    FIXED("1인 고정석");
 
-    HOURLY("시간 단위 이용권") {
-        @Override
-        public boolean selected(String userInput) {
-            return "1".equals(userInput);
-        }
-
-        @Override
-        public String format(StudyCafePass pass) {
-            return String.format("%s시간권 - %d원", pass.getDuration(), pass.getPrice());
-        }
-    },
-    WEEKLY("주 단위 이용권") {
-        @Override
-        public boolean selected(String userInput) {
-            return "2".equals(userInput);
-        }
-
-        @Override
-        public String format(StudyCafePass pass) {
-            return String.format("%s주권 - %d원", pass.getDuration(), pass.getPrice());
-        }
-    },
-    FIXED("1인 고정석") {
-        @Override
-        public boolean selected(String userInput) {
-            return "3".equals(userInput);
-        }
-
-        @Override
-        public String format(StudyCafePass pass) {
-            return String.format("%s주권 - %d원", pass.getDuration(), pass.getPrice());
-        }
-    };
+    private static final Set<StudyCafePassType> LOCKER_TYPES = Set.of(StudyCafePassType.FIXED);
 
     private final String description;
 
@@ -49,14 +16,12 @@ public enum StudyCafePassType implements PassTypeSelectable, PassTypeFormatter {
         this.description = description;
     }
 
-    public static StudyCafePassType findBy(String userInput) {
-        return Arrays.stream(values())
-            .filter(passType -> passType.selected(userInput))
-            .findFirst()
-            .orElseThrow(() -> new AppException("잘못된 입력입니다."));
+    public boolean isLockerType() {
+        return LOCKER_TYPES.contains(this);
     }
 
-    public boolean isSamePassType(StudyCafeSeatPass pass) {
-        return this.equals(pass.getPassType());
+    public boolean isNotLockerType() {
+        return !isLockerType();
     }
+
 }

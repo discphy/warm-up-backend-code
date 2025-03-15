@@ -1,7 +1,7 @@
-package cleancode.studycafe.tobe.model.pass.locker;
+package cleancode.studycafe.misson7.model.pass.locker;
 
-import cleancode.studycafe.tobe.model.pass.StudyCafePass;
-import cleancode.studycafe.tobe.model.pass.StudyCafePassType;
+import cleancode.studycafe.misson7.model.pass.StudyCafePass;
+import cleancode.studycafe.misson7.model.pass.StudyCafePassType;
 
 public class StudyCafeLockerPass implements StudyCafePass {
 
@@ -20,11 +20,11 @@ public class StudyCafeLockerPass implements StudyCafePass {
     }
 
     public boolean isSamePassType(StudyCafePassType passType) {
-        return this.passType == passType;
+        return passType == this.passType;
     }
 
     public boolean isSameDuration(int duration) {
-        return this.duration == duration;
+        return duration == this.duration;
     }
 
     @Override

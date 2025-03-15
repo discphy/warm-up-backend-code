@@ -4,5 +4,6 @@ import cleancode.studycafe.tobe.model.pass.locker.StudyCafeLockerPasses;
 
 public interface LockerPassProvider {
 
-    StudyCafeLockerPasses provide();
+    StudyCafeLockerPasses getLockerPasses();
+
 }

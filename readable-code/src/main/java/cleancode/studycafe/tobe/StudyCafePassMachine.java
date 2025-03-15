@@ -1,92 +1,82 @@
 package cleancode.studycafe.tobe;
 
-import cleancode.studycafe.tobe.config.StudyCafeConfig;
 import cleancode.studycafe.tobe.exception.AppException;
-import cleancode.studycafe.tobe.exception.ProvideException;
-import cleancode.studycafe.tobe.io.handler.InputHandler;
-import cleancode.studycafe.tobe.io.handler.OutputHandler;
-import cleancode.studycafe.tobe.model.pass.StudyCafePassType;
+import cleancode.studycafe.tobe.io.StudyCafeIOHandler;
+import cleancode.studycafe.tobe.model.order.StudyCafePassOrder;
+import cleancode.studycafe.tobe.model.pass.*;
 import cleancode.studycafe.tobe.model.pass.locker.StudyCafeLockerPass;
 import cleancode.studycafe.tobe.model.pass.locker.StudyCafeLockerPasses;
-import cleancode.studycafe.tobe.model.pass.order.StudyCafePassOrder;
-import cleancode.studycafe.tobe.model.pass.seat.StudyCafeSeatPass;
-import cleancode.studycafe.tobe.model.pass.seat.StudyCafeSeatPasses;
 import cleancode.studycafe.tobe.provider.LockerPassProvider;
 import cleancode.studycafe.tobe.provider.SeatPassProvider;
 
+import java.util.List;
 import java.util.Optional;
 
 public class StudyCafePassMachine {
 
-    private final InputHandler inputHandler;
-    private final OutputHandler outputHandler;
+    private final StudyCafeIOHandler ioHandler = new StudyCafeIOHandler();
     private final SeatPassProvider seatPassProvider;
     private final LockerPassProvider lockerPassProvider;
 
-    public StudyCafePassMachine(StudyCafeConfig config) {
-        this.inputHandler = config.getInputHandler();
-        this.outputHandler = config.getOutputHandler();
-        this.seatPassProvider = config.getSeatPassProvider();
-        this.lockerPassProvider = config.getLockerPassProvider();
+    public StudyCafePassMachine(SeatPassProvider seatPassProvider, LockerPassProvider lockerPassProvider) {
+        this.seatPassProvider = seatPassProvider;
+        this.lockerPassProvider = lockerPassProvider;
     }
 
     public void run() {
         try {
-            outputHandler.showWelcomeMessage();
-            outputHandler.showAnnouncement();
+            ioHandler.showWelcomeMessage();
+            ioHandler.showAnnouncement();
 
-            StudyCafeSeatPass selectedSeatPass = selectedSeatPass();
-            Optional<StudyCafeLockerPass> selectedLockerPass = selectedLockerPass(selectedSeatPass);
-
-            StudyCafePassOrder order = StudyCafePassOrder.of(
-                selectedSeatPass,
-                selectedLockerPass.orElse(null)
+            StudyCafeSeatPass selectedPass = selectPass();
+            Optional<StudyCafeLockerPass> optionalLockerPass = selectLockerPass(selectedPass);
+            StudyCafePassOrder passOrder = StudyCafePassOrder.of(
+                selectedPass,
+                optionalLockerPass.orElse(null)
             );
-            outputHandler.showPassOrderSummary(order);
+
+            ioHandler.showPassOrderSummary(passOrder);
         } catch (AppException e) {
-            outputHandler.showSimpleMessage(e.getMessage());
-        } catch (ProvideException e) {
-            outputHandler.showSimpleMessage("이용권을 제공받을 수 없습니다.");
+            ioHandler.showSimpleMessage(e.getMessage());
         } catch (Exception e) {
-            outputHandler.showSimpleMessage("알 수 없는 오류가 발생했습니다.");
+            ioHandler.showSimpleMessage("알 수 없는 오류가 발생했습니다.");
         }
     }
 
-    private StudyCafeSeatPass selectedSeatPass() {
-        StudyCafePassType passType = selectedPassType();
-        StudyCafeSeatPasses seatPassCandidates = findSeatPassCandidates(passType);
+    private StudyCafeSeatPass selectPass() {
+        StudyCafePassType passType = ioHandler.askPassTypeSelecting();
+        List<StudyCafeSeatPass> passCandidates = findPassCandidatesBy(passType);
 
-        outputHandler.showSeatPassListForSelection(seatPassCandidates);
-        return inputHandler.getSelectSeatPass(seatPassCandidates);
+        return ioHandler.askPassSelecting(passCandidates);
     }
 
-    private StudyCafePassType selectedPassType() {
-        outputHandler.askPassTypeSelection();
-        return inputHandler.getPassTypeSelectingUserAction();
+    private List<StudyCafeSeatPass> findPassCandidatesBy(StudyCafePassType studyCafePassType) {
+        StudyCafeSeatPasses allPasses = seatPassProvider.getSeatPasses();
+        return allPasses.findPassBy(studyCafePassType);
     }
 
-    private StudyCafeSeatPasses findSeatPassCandidates(StudyCafePassType passType) {
-        StudyCafeSeatPasses allPass = seatPassProvider.provide();
-        return allPass.findCandidatesBy(passType);
-    }
-
-    private Optional<StudyCafeLockerPass> selectedLockerPass(StudyCafeSeatPass seatPass) {
-        if (seatPass.cannotSelectLockerPass()) {
+    private Optional<StudyCafeLockerPass> selectLockerPass(StudyCafeSeatPass selectedPass) {
+        if (selectedPass.cannotUseLocker()) {
             return Optional.empty();
         }
 
-        Optional<StudyCafeLockerPass> lockerPassCandidate = findLockerPassCandidate(seatPass);
-        return lockerPassCandidate
-            .filter(this::isSelectedLockerPass);
+        Optional<StudyCafeLockerPass> lockerPassCandidate = findLockerPassCandidateBy(selectedPass);
+
+        if (lockerPassCandidate.isPresent()) {
+            StudyCafeLockerPass lockerPass = lockerPassCandidate.get();
+
+            boolean isLockerSelected = ioHandler.askLockerPass(lockerPass);
+            if (isLockerSelected) {
+                return Optional.of(lockerPass);
+            }
+        }
+
+        return Optional.empty();
     }
 
-    private Optional<StudyCafeLockerPass> findLockerPassCandidate(StudyCafeSeatPass seatPass) {
-        StudyCafeLockerPasses lockerPasses = lockerPassProvider.provide();
-        return lockerPasses.findCandidateBy(seatPass);
+    private Optional<StudyCafeLockerPass> findLockerPassCandidateBy(StudyCafeSeatPass pass) {
+        StudyCafeLockerPasses allLockerPasses = lockerPassProvider.getLockerPasses();
+        return allLockerPasses.findLockerPassBy(pass);
     }
 
-    private boolean isSelectedLockerPass(StudyCafeLockerPass lockerPass) {
-        outputHandler.askLockerPass(lockerPass);
-        return inputHandler.getLockerSelection();
-    }
 }
