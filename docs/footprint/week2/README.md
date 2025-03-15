@@ -49,13 +49,13 @@
 public enum StudyCafePassType implements PassTypeSelectable, PassTypeFormatter { // 📝 인터페이스 구조화
 
     HOURLY("시간 단위 이용권") {
-	    // 📝 사용자 입력에 대한 구조화
+        // 📝 사용자 입력에 대한 구조화
         @Override
         public boolean selected(String userInput) {
             return "1".equals(userInput);
         }
 
-		// 📝 사용자 출력 포맷에 대한 구조화
+        // 📝 사용자 출력 포맷에 대한 구조화
         @Override
         public String format(StudyCafePass pass) {
             return String.format("%s시간권 - %d원", pass.getDuration(), pass.getPrice());
@@ -81,6 +81,7 @@ Output format도 마찬가지이다.
 ```
 
 **🤔 돌아보기**  
+
 단순히, OCP를 적용하기 위해 접근해서 리팩토링 했었는데.. 
 
 적절한 객체 책임 분리를 하지 못했으며, 
@@ -103,7 +104,7 @@ public class ReadLockerPasses { // 📝 LockerPasses를 해석하는 객체 분�
         this.passes = passes;
     }
 
-	// 📝 lines을 해석하여 List<StudyCafeLockerPass> 객체를 만들어준다. 
+    // 📝 lines을 해석하여 List<StudyCafeLockerPass> 객체를 만들어준다. 
     public static ReadLockerPasses ofLines(List<String> lines) {
         List<StudyCafeLockerPass> passes = lines.stream()
             .map(ReadLockerPasses::ofLine)
@@ -122,7 +123,7 @@ public class ReadLockerPasses { // 📝 LockerPasses를 해석하는 객체 분�
         return StudyCafeLockerPass.of(studyCafePassType, duration, price);
     }
 
-	// 📝 StudyCafeLockerPasses를 생성해준다.
+    // 📝 StudyCafeLockerPasses를 생성해준다.
     public StudyCafeLockerPasses toPasses() {
         return StudyCafeLockerPasses.of(passes);
     }
@@ -144,9 +145,11 @@ A. 많은 책임이라고 생각하신 이유가 있을까요?
 ```
 
 **🤔 돌아보기**  
-`Read`라는 클래스명을 가지고 있어 `StudyCafeLockerPasses`를 생성해주는 메서드가 존재해 많은 책임이 있다고 생각했는데.. 우빈님 리뷰 이후에 다시 보니.. 그렇게 어색한가 싶기도 하다.. ㅎㅎ
 
-해당 클래스의 작성 당시CSV 방식을 의존하려는 의도는 없었다. 
+`Read`라는 클래스명을 가지고 있어 `StudyCafeLockerPasses`를 생성해주는 메서드가 존재해 많은 책임이 있다고 생각했는데..   
+우빈님 리뷰 이후에 다시 보니.. 그렇게 어색한가 싶기도 하다.. ㅎㅎ
+
+해당 클래스의 작성 당시 CSV 방식을 의존하려는 의도는 없었다. 
 단순히 **읽은** 부분의 개념을 추출한 것인데.. 위의 클래스는 `CSV_SPLITTER`상수가 사용되어 의도하지 않게 CSV라는 방식에 종속적이게 된 것이다. 
 
 CSV라는 방식이 변경되면 객체 로직이 바뀌어야 한다. 
@@ -201,22 +204,23 @@ AppException의 의도는, 프로그램에서 발생할 수 있는 대부분의 
 ```
 
 **🤔 돌아보기**  
-리팩토링 당시, 초기 이용권을 가져와야만 프로그램이 실행된다는 관점에서 ProvideException의 커스텀 예외 클래스를 작성하였다. 
 
-하지만 이용권을 가져오는 부분은 프로그램 내부에서 필요한 시점마다 호출하고 있어 
-우빈님 리뷰대로 AppException 클래스를 상속받아서 작성하는 것이 더 나은 설계 같다.
+리팩토링 당시, 초기 이용권을 가져와야만 프로그램이 실행된다는 관점에서 `ProvideException`의 커스텀 예외 클래스를 작성하였다. 
 
-예외 메세지도 사용자 관점에서는 친화적이지 않은 것이 분명하다. 
+하지만 이용권을 가져오는 부분은 프로그램 내부에서 필요한 시점마다 호출하고 있어  
+우빈님 리뷰대로 `AppException` 클래스를 상속받아서 작성하는 것이 더 나은 설계 같다.
+
+예외 메세지도 사용자 관점에서는 친화적이지 않은 것이 분명하다.   
 내가 키오스크 시스템을 사용하다가 저런 메세지를 마주한다면... 화가 날 것 이다... 😡
 
 프로그램의 의도를 정확히 파악할 필요가 있어보인다. 또한 예외 메세지도 누가 보는지에 따라 고민해보는 습관을 길러야겠다.
 
 ---
 
-이렇게, 요청한 3개의 리뷰와 2개의 추가 리뷰를 받아 보았다.. 
+이렇게, 요청한 3개의 리뷰와 2개의 추가 리뷰를 받아 보았다..  
 고작 3일 만에 7명이나 리뷰를 해주셨는데 세심하고 또 세심했다... 퀄리티가 상당했다.. ✨
 
-이번 온라인 라이브를 통해 우빈님에 대한 팬심과 존경심이 더욱 커졌다....! 📈
+이번 온라인 라이브를 통해 우빈님에 대한 팬심과 존경심이 더욱 커졌다....! 📈  
 리뷰해주신 내용으로 다시 리팩토링을 함으로써 한층 더 Readable Code에 대한 성장을 경험할 수 있었다. 🚀
 
 ![img_11.png](img_11.png)
@@ -461,4 +465,4 @@ TDD의 관점
 3월 중순이 되니 이제 슬슬 봄 내음이 나는 것 같다.. 🌸  
 얼어붙은 개발 시장에도 봄이 찾아왔으면 좋겠다.. 🧊
 
-
+발자국 2주차 끄읕 ! 
