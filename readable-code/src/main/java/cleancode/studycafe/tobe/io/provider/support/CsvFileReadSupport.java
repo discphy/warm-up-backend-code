@@ -9,7 +9,6 @@ import java.util.List;
 public class CsvFileReadSupport {
 
     public static final String CSV_FILE_ROOT_PATH = "readable-code/src/main/resources/cleancode/studycafe/";
-    public static final String CSV_SPLITTER = ",";
 
     private CsvFileReadSupport() {
     }

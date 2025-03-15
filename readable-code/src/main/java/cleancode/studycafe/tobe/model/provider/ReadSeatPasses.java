@@ -6,10 +6,9 @@ import cleancode.studycafe.tobe.model.pass.seat.StudyCafeSeatPasses;
 
 import java.util.List;
 
-import static cleancode.studycafe.tobe.io.provider.support.CsvFileReadSupport.CSV_SPLITTER;
-
 public class ReadSeatPasses {
 
+    private static final String SPLITTER = ",";
     private final List<StudyCafeSeatPass> passes;
 
     private ReadSeatPasses(List<StudyCafeSeatPass> passes) {
@@ -25,7 +24,7 @@ public class ReadSeatPasses {
     }
 
     private static StudyCafeSeatPass ofLine(String line) {
-        String[] values = line.split(CSV_SPLITTER);
+        String[] values = line.split(SPLITTER);
 
         StudyCafePassType studyCafePassType = StudyCafePassType.valueOf(values[0]);
         int duration = Integer.parseInt(values[1]);
