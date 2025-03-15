@@ -28,7 +28,7 @@ class StudyCafeSeatPassTest {
         assertThat(result).isEqualTo(expected);
     }
 
-    @DisplayName("사물함 패스권의 기간과 타입이 좌석권의 기간과 타입이 일치하는지 확인한다.")
+    @DisplayName("사물함 패스와 좌석 패스의 기간과 타입이 일치하는지 확인한다.")
     @ParameterizedTest
     @CsvSource({
         "HOURLY, 3, FIXED, 1, false", // 둘다 다를경우
@@ -36,7 +36,11 @@ class StudyCafeSeatPassTest {
         "FIXED, 3, FIXED, 1, false", // duration 다를 경우
         "FIXED, 1, FIXED, 1, true", // 둘이 같을 경우
     })
-    void isSameDurationType(StudyCafePassType lockerType, int lockerDuration, StudyCafePassType matchedType, int matchedDuration, boolean expected) {
+    void isSameDurationType(StudyCafePassType lockerType,
+                            int lockerDuration,
+                            StudyCafePassType matchedType,
+                            int matchedDuration,
+                            boolean expected) {
         // given
         StudyCafeSeatPass seatPass = StudyCafeSeatPass.of(matchedType, matchedDuration, 10000, 0);
         StudyCafeLockerPass lockerPass = StudyCafeLockerPass.of(lockerType, lockerDuration, 10000);
@@ -48,7 +52,7 @@ class StudyCafeSeatPassTest {
         assertThat(result).isEqualTo(expected);
     }
 
-    @DisplayName("주어진 타입과 좌석권의 타입이 일치하는지 확인한다.")
+    @DisplayName("주어진 타입과 좌석 패스의 타입이 일치하는지 확인한다.")
     @ParameterizedTest
     @CsvSource({
         "HOURLY, FIXED, false",
