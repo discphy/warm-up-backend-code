@@ -2,10 +2,10 @@
 
 ## 레이어드 아키텍처 특징 및 테스트 작성법 - 자기만의 언어 정리
 
-### 레이어 별 특징 
+### 레이어 별 특징
 
 **Layered Architecture**
-  
+
 레이어드 아키텍처는 관심사의 분리로 구분되어있어 책임을 나누고 유지보수 용이하다.
 각 레이어는 독립적으로 테스트할 수 있다.
 
@@ -33,7 +33,7 @@ UI 및 컨트롤러의 책임
 
 + 엔드포인트를 정의한다.
 + 외부 세계의 요청을 가장 먼저 받는 계층이며, 응답을 반환한다.
-+ 직접적인 비지니스 로직을 포함하지 않고, Business Layer에 위임한다. 
++ 직접적인 비지니스 로직을 포함하지 않고, Business Layer에 위임한다.
 + 요청 데이터 검증을 수행하며 Controller와 DTO를 포함한다.
 
 ### 레이어 별 테스트 작성법
@@ -44,7 +44,8 @@ UI 및 컨트롤러의 책임
 
 + 데이터 Access에 대한 테스트를 진행한다. (데이터 저장 및 조회 기능, 데이터 무결성)
 + 통합테스트이지만 단위테스트의 성격을 가지고 있다.
-+ 단위 테스트 성격을 가지고 있어 @DataJpaTest를 사용하여 경량화 할 수 있지만, 레이어에 대한 테스트는 본질적으로 통합 테스트이기 때문에 테스트 환경을 통합한 @SpringBootTest와 @Transactional를 조합해서 작성한다.
++ 단위 테스트 성격을 가지고 있어 @DataJpaTest를 사용하여 경량화 할 수 있지만, 레이어에 대한 테스트는 본질적으로 통합 테스트이기 때문에 테스트 환경을 통합한 @SpringBootTest와
+  @Transactional를 조합해서 작성한다.
 
 🔭 Test Fixure
 
@@ -54,6 +55,7 @@ UI 및 컨트롤러의 책임
 ✨ 예제 코드
 
 ```java
+
 @ActiveProfiles("test")
 @SpringBootTest
 @Transactional
@@ -72,15 +74,15 @@ class ProductRepositoryTest {
         Product product3 = createProduct("003", STOP_SELLING, "팥빙수", 7000);
 
         // ✅ 생성한 도메인을 주입받은 Repository를 통해 저장한다. 
-        productRepository.saveAll(List.of(product1, product2, product3));  
-        
+        productRepository.saveAll(List.of(product1, product2, product3));
+
         // when
         // ✅ 테스트 하고자하는 행위를 수행한다.
         List<Product> products = productRepository.findAllBySellingStatusIn(List.of(SELLING, HOLD));
 
         // then
         // ✅ 테스트 행위 결과를 검증한다.
-        assertThat(products).hasSize(2) 
+        assertThat(products).hasSize(2)
             .extracting("productNumber", "name", "sellingStatus")
             .containsExactlyInAnyOrder(
                 tuple("001", "아메리카노", SELLING),
@@ -108,12 +110,12 @@ class ProductRepositoryTest {
 💡 테스트 코드 작성법
 
 + 비지니스 로직이 정상적으로 동작하는지에 대해 테스트 한다.
-+ 해피 케이스보다 가시적인 예외와 비가시적인 예외 케이스에 대해 테스트에 집착해야 한다.
++ 해피 케이스보다 눈에 보이는 예외와 눈에 보이지 않는 예외 케이스에 대해 테스트에 집착해야 한다.
 + 여러 도메인 객체 간의 협력에 대해 테스트 한다.
 + Business Layer + Persistence Layer를 통합 테스트 한다.
 + 개인적으로는, 객체간의 협력이 많은 Business Layer에서는 @AfterEach에서 deleteAllInBatch()로 클렌징한다.
 
-🧼 데이터 클렌징   
+🧼 데이터 클렌징
 
 @Transactionl vs deleteAll vs deleteAllInBatch
 
@@ -127,6 +129,7 @@ tearDown(after)절에서 삭제 순서는 외래 키 제약에 의해 영향 받
 ✨ 예제 코드
 
 ```java
+
 @ActiveProfiles("test")
 @SpringBootTest
 class OrderServiceTest {
@@ -166,7 +169,7 @@ class OrderServiceTest {
         Product product2 = createProduct(HANDMADE, "002", 3000);
         Product product3 = createProduct(HANDMADE, "003", 5000);
         productRepository.saveAll(List.of(product1, product2, product3));
-        
+
         OrderCreateServiceRequest request = OrderCreateServiceRequest.builder()
             .productNumbers(List.of("001", "002"))
             .build();
@@ -217,6 +220,7 @@ class OrderServiceTest {
     }
 }
 ```
+
 ![img_2.png](img_2.png)
 
 **3️⃣ Presentation Layer 테스트 작성**
@@ -225,18 +229,19 @@ class OrderServiceTest {
 
 + Controller의 테스트 에서는 Business Layer를 Mocking하여 독립적으로 테스트 한다.
 + Controller 요청 파라미터에 대한 최소한의 검증을 수행한다.
-  + 그 외의 도메인 관련 로직 검증은 Business Layer에서 수행한다.
-    ```text
-    [예시] 비밀번호를 요청 파라미터로 받을 때, 
-    - Presentation Layer : 비밀번호의 필수 여부를 체크한다 - @NotBlank
-    - Business Layer : 도메인 내에서 비밀번호 정규식을 통한 검증한다 - 특수문자, 대소문자 등
-    ``` 
-+ Business Layer의 Service 클래스를 @MockBean을 통해 mocking한다. 
+    + 그 외의 도메인 관련 로직 검증은 Business Layer에서 수행한다.
+      ```text
+      [예시] 비밀번호를 요청 파라미터로 받을 때, 
+      - Presentation Layer : 비밀번호의 필수 여부를 체크한다 - @NotBlank
+      - Business Layer : 도메인 내에서 비밀번호 정규식을 통한 검증한다 - 특수문자, 대소문자 등
+      ``` 
++ Business Layer의 Service 클래스를 @MockBean을 통해 mocking한다.
 + @WebMvcTest를 이용해 테스트 하고자 하는 Controller 등록한다.
 
 ✨ 예제 코드
 
 ```java
+
 @WebMvcTest(ProductController.class)
 class ProductControllerTest {
 
@@ -248,7 +253,7 @@ class ProductControllerTest {
 
     @MockBean
     private ProductService productService; // ✅ Service를 @MockBean으로 mocking
-    
+
     @Test
     @DisplayName("신규 상품을 등록한다.")
     void createProduct() throws Exception {
@@ -264,7 +269,7 @@ class ProductControllerTest {
         // ✅ mockMvc를 이용해 테스트 행위를 검증한다.
         mockMvc.perform(
                 post("/api/v1/products/new")
-                    .content(objectMapper.writeValueAsString(request))  
+                    .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
             .andDo(print())
@@ -301,22 +306,22 @@ class ProductControllerTest {
     @Test
     @DisplayName("판매 상품을 조회한다.")
     void getSellingProducts() throws Exception {
-      // given
-      List<ProductResponse> result = List.of();
+        // given
+        List<ProductResponse> result = List.of();
 
-      // ✅ Business Layer 행위를 mocking 한다.
-      when(productService.getSellingProducts()).thenReturn(result);
-  
-      // when & then
-      mockMvc.perform(
-              get("/api/v1/products/selling")
-          )
-          .andDo(print())
-          .andExpect(status().isOk())
-          .andExpect(jsonPath("$.code").value("200"))
-          .andExpect(jsonPath("$.status").value("OK"))
-          .andExpect(jsonPath("$.message").value("OK"))
-          .andExpect(jsonPath("$.data").isArray());
+        // ✅ Business Layer 행위를 mocking 한다.
+        when(productService.getSellingProducts()).thenReturn(result);
+
+        // when & then
+        mockMvc.perform(
+                get("/api/v1/products/selling")
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.code").value("200"))
+            .andExpect(jsonPath("$.status").value("OK"))
+            .andExpect(jsonPath("$.message").value("OK"))
+            .andExpect(jsonPath("$.data").isArray());
     }
 }
 ```
