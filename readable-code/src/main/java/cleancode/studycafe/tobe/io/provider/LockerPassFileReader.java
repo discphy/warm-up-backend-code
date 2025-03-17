@@ -13,7 +13,7 @@ import java.util.List;
 
 public class LockerPassFileReader implements LockerPassProvider {
 
-    private static final String LOCKER_LIST_CSV_PATH = "src/main/resources/cleancode/studycafe/locker.csv";
+    private static final String LOCKER_LIST_CSV_PATH = "readable-code/src/main/resources/cleancode/studycafe/locker.csv";
 
     @Override
     public StudyCafeLockerPasses getLockerPasses() {
