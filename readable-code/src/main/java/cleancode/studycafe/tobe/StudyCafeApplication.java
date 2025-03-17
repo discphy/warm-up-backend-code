@@ -1,22 +1,19 @@
 package cleancode.studycafe.tobe;
 
-import cleancode.studycafe.tobe.config.StudyCafeConfig;
-import cleancode.studycafe.tobe.io.handler.ConsoleInputHandler;
-import cleancode.studycafe.tobe.io.handler.ConsoleOutputHandler;
-import cleancode.studycafe.tobe.io.provider.LockerPassFileProvider;
-import cleancode.studycafe.tobe.io.provider.SeatPassFileProvider;
+import cleancode.studycafe.tobe.io.provider.LockerPassFileReader;
+import cleancode.studycafe.tobe.io.provider.SeatPassFileReader;
+import cleancode.studycafe.tobe.provider.LockerPassProvider;
+import cleancode.studycafe.tobe.provider.SeatPassProvider;
 
 public class StudyCafeApplication {
 
     public static void main(String[] args) {
-        StudyCafeConfig config = new StudyCafeConfig(
-            new ConsoleInputHandler(),
-            new ConsoleOutputHandler(),
-            new SeatPassFileProvider(),
-            new LockerPassFileProvider()
-        );
+        SeatPassProvider seatPassProvider = new SeatPassFileReader();
+        LockerPassProvider lockerPassProvider = new LockerPassFileReader();
 
-        StudyCafePassMachine studyCafePassMachine = new StudyCafePassMachine(config);
+        StudyCafePassMachine studyCafePassMachine = new StudyCafePassMachine(
+            seatPassProvider, lockerPassProvider
+        );
         studyCafePassMachine.run();
     }
 

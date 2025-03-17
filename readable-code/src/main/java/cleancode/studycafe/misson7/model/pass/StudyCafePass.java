@@ -1,4 +1,4 @@
-package cleancode.studycafe.tobe.model.pass;
+package cleancode.studycafe.misson7.model.pass;
 
 public interface StudyCafePass {
 
@@ -7,5 +7,4 @@ public interface StudyCafePass {
     int getDuration();
 
     int getPrice();
-
 }

@@ -1,8 +1,9 @@
 package cleancode.studycafe.tobe.provider;
 
-import cleancode.studycafe.tobe.model.pass.seat.StudyCafeSeatPasses;
+import cleancode.studycafe.tobe.model.pass.StudyCafeSeatPasses;
 
 public interface SeatPassProvider {
 
-    StudyCafeSeatPasses provide();
+    StudyCafeSeatPasses getSeatPasses();
+
 }
