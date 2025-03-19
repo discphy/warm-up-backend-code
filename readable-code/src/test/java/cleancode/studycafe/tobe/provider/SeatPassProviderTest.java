@@ -18,7 +18,7 @@ import static org.mockito.Mockito.mockStatic;
 
 class SeatPassProviderTest {
 
-    @DisplayName("파일을 읽을 수 없으면 좌석권 컬렉션을 가져오지 못한다.")
+    @DisplayName("파일을 읽을 수 없으면 좌석권 패스를 가져오지 못한다.")
     @Test
     void getSeatPassesWithUnReadableFile() {
         try (MockedStatic<Files> mockedFiles = mockStatic(Files.class)) {
@@ -35,7 +35,7 @@ class SeatPassProviderTest {
         }
     }
 
-    @DisplayName("파일을 읽어서 좌석권을 가져온다.")
+    @DisplayName("파일을 읽어서 좌석 패스를 가져온다.")
     @Test
     void getSeatPasses() {
         try (MockedStatic<Files> mockedFiles = mockStatic(Files.class)) {
