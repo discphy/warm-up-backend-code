@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class StudyCafePassTypeTest {
 
-    @DisplayName("사물함 패스를 구매 할 수 있는 타입인지 확인한다.")
+    @DisplayName("타입이 사물함 패스 타입인지 확인한다.")
     @ParameterizedTest
     @CsvSource({
         "HOURLY, false",
@@ -23,7 +23,7 @@ class StudyCafePassTypeTest {
         assertThat(result).isEqualTo(expected);
     }
 
-    @DisplayName("사물함 패스를 구매 할 수 없는 타입인지 확인한다.")
+    @DisplayName("타입이 사물함 패스 타입이 아닌지 확인한다.")
     @ParameterizedTest
     @CsvSource({
         "HOURLY, true",

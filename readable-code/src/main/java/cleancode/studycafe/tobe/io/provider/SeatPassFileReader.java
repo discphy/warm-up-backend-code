@@ -13,7 +13,7 @@ import java.util.List;
 
 public class SeatPassFileReader implements SeatPassProvider {
 
-    private static final String PASS_LIST_CSV_PATH = "src/main/resources/cleancode/studycafe/pass-list.csv";
+    private static final String PASS_LIST_CSV_PATH = "readable-code/src/main/resources/cleancode/studycafe/pass-list.csv";
 
     @Override
     public StudyCafeSeatPasses getSeatPasses() {

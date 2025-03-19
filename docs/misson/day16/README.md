@@ -6,7 +6,7 @@
 
 **Layered Architecture**
 
-레이어드 아키텍처는 관심사의 분리로 구분되어있어 책임을 나누고 유지보수 용이하다.
+레이어드 아키텍처는 관심사의 분리로 구분되어있어 책임을 나누고 유지보수 용이하다.  
 각 레이어는 독립적으로 테스트할 수 있다.
 
 ![img.png](img.png)
@@ -90,7 +90,7 @@ class ProductRepositoryTest {
             );
     }
 
-    // 🚀 빌더 패턴을 이용한 Test Fixture
+    // 🔭 빌더 패턴을 이용한 Test Fixture
     private Product createProduct(String productNumber, ProductSellingStatus sellingStatus, String name, int price) {
         return Product.builder()
             .productNumber(productNumber)
@@ -151,7 +151,7 @@ class OrderServiceTest {
 
     @AfterEach
     void tearDown() {
-        // ✅ 연관관계가 깊은 도메인 부터 클렌징 한다.
+        // 🧼 연관관계가 깊은 도메인 부터 클렌징 한다.
         orderProductRepository.deleteAllInBatch();
         orderRepository.deleteAllInBatch();
         productRepository.deleteAllInBatch();
@@ -327,3 +327,7 @@ class ProductControllerTest {
 ```
 
 ![img_3.png](img_3.png)
+
+[출처]
++ 인프런 워밍업 클럽 : https://www.inflearn.com/course/offline/warmup-club-3-be-code
++ 강의 : https://www.inflearn.com/course/readable-code-%EC%9D%BD%EA%B8%B0%EC%A2%8B%EC%9D%80%EC%BD%94%EB%93%9C-%EC%9E%91%EC%84%B1%EC%82%AC%EA%B3%A0%EB%B2%95/dashboard
