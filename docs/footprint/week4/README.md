@@ -254,3 +254,34 @@ Collection<DynamicTest> stockDeductionDynamicTest() {
 + 테스트 코드를 통한 API 문서 자동화 도구
 + API 명세를 문서로 만들고 제공함으로써 협업을 원활하게 한다.
 
+## 👨🏻‍💻 미션 회고
+
+### [미션 Day 16]
+
+**[미션 PR]**
+
+https://github.com/discphy/warm-up-backend-code/pull/8
+
+**1️⃣ 레이어드 아키텍처 특징 및 테스트 작성법**
+
++ 레이어드 아키텍처의 특징을 개념 위주로 정리하고, 레이어별 테스트 작성법은 예제 코드를 활용해 정리하였다. 
++ 특히, 레이어별 테스트를 작성하는 과정에서 `Test Fixture`와 데이터 클렌징 개념을 함께 학습하며, 이를 예제 코드에 적용하였다.
++ 차후에 실무 및 사이드 프로젝트에서 레이어드 아키텍처를 직접 적용해 보며 응용해볼 계획이다. 
+
+### [미션 Day 18]
+
+**[미션 PR]**
+
+https://github.com/discphy/warm-up-backend-code/pull/9
+
+**2️⃣ Mock 어노테이션 종류 및 차이점 & BDD 패턴 적용**
+
+**📌 Mock 어노테이션 종류 및 차이점**
+
++ Mockito의 주요 어노테이션(@Mock, @Spy, @InjectMocks, @MockBean, @SpyBean)의 차이를 자기만의 언어로 정리하였다.  
++ 순수한 Mock 기반 단위 테스트와 Spring Context 기반 통합테스트에서 각각 어떤 어노테이션을 사용해야 하는지 이해하였다.
+
+**📌 BDD 패턴 적용** 
+
++ 댓글의 주요 로직을 테스트하는 클래스 CommentTest을 작성하였다.
++ 각 테스트 케이스에서 댓글 도메인을 테스트 하기 위한 사용자와 게시글을 생성하는 코드를 @BeforeEach 절에 배치하였다. 
