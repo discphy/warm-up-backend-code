@@ -285,3 +285,7 @@ https://github.com/discphy/warm-up-backend-code/pull/9
 
 + 댓글의 주요 로직을 테스트하는 클래스 CommentTest을 작성하였다.
 + 각 테스트 케이스에서 댓글 도메인을 테스트 하기 위한 사용자와 게시글을 생성하는 코드를 @BeforeEach 절에 배치하였다. 
+
+[출처]
++ 인프런 워밍업 클럽 : https://www.inflearn.com/course/offline/warmup-club-3-be-code
++ 강의 : https://www.inflearn.com/course/readable-code-%EC%9D%BD%EA%B8%B0%EC%A2%8B%EC%9D%80%EC%BD%94%EB%93%9C-%EC%9E%91%EC%84%B1%EC%82%AC%EA%B3%A0%EB%B2%95/dashboard
