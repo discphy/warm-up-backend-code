@@ -1,5 +1,19 @@
 # 발자국 - Week4
 
+### 👣 발자국 책갈피
++ [인프런 워밍업 클럽 3기 백엔드 코드 발자국 1주차](https://velog.io/@discphy/읽기-좋은-코드-작성-추상과-객체-인프런-워밍업-클럽-3기)
++ [인프런 워밍업 클럽 3기 백엔드 코드 발자국 2주차](https://velog.io/@discphy/읽기-좋은-코드-리팩토링)
++ [인프런 워밍업 클럽 3기 백엔드 코드 발자국 3주차](https://velog.io/@discphy/실용적인-테스트-가이드-Spring-JPA-기반-테스트-코드-작성법)
++ [인프런 워밍업 클럽 3기 백엔드 코드 발자국 4주차](https://velog.io/@discphy/단위-테스트-작성법-그리고-Mock-인프런-워밍업-클럽-3기-백엔드-코드)
+
+### ☑️ 미션PR 책갈피 
++ [[미션 Day 2] 추상과 구체 예시 작성](https://github.com/discphy/warm-up-backend-code/pull/1)
++ [[미션 Day 4] 리팩토링 & SOLID 원칙](https://github.com/discphy/warm-up-backend-code/pull/2)
++ [[미션 Day 7] 리팩토링 연습](https://github.com/discphy/warm-up-backend-code/pull/4)
++ [[미션 Day 11] 단위테스트 작성](https://github.com/discphy/warm-up-backend-code/pull/6)
++ [[미션 Day 16] 레이어드 아키텍처 특징 및 테스트 작성법](https://github.com/discphy/warm-up-backend-code/pull/8)
++ [[미션 Day 18] Mock 어노테이션 종류 및 차이점 & BDD 패턴 매치](https://github.com/discphy/warm-up-backend-code/pull/9)
+
 ## ⏰ 벌써 1분기 끝...
 
 약 한 달간의 인프런 워밍업 클럽 백엔드 코드 3기 여정이 끝났다.   
