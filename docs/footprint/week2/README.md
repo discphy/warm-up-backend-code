@@ -7,7 +7,7 @@
 이번주에는 중간점검으로 온라인 라이브가 진행 되었다. 
 온라인 라이브에 대한 내용은 다음과 같다. 
 
-- [미션 Day 4](https://github.com/discphy/warm-up-backend-code/pull/2 ) 에 대한 공통 피드백
+- [미션 Day 4](https://github.com/discphy/warm-up-backend-code/pull/2) 에 대한 공통 피드백
 - Q&A에 대한 답변 
 - [미션 Day 7](https://github.com/discphy/warm-up-backend-code/pull/4) 코드리뷰 진행 
 
