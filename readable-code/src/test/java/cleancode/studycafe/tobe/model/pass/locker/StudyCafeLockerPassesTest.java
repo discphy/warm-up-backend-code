@@ -12,18 +12,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class StudyCafeLockerPassesTest {
 
-    @DisplayName("좌석권으로 사물함권을 찾는다.")
+    @DisplayName("좌석 패스로 기간과 타입이 동일한 사물함 패스를 찾는다.")
     @Test
     void findLockerPassBy() {
         // given
-        List<StudyCafeLockerPass> list = List.of(
-            StudyCafeLockerPass.of(StudyCafePassType.FIXED, 4, 11000),
-            StudyCafeLockerPass.of(StudyCafePassType.WEEKLY, 4, 17000),
-            StudyCafeLockerPass.of(StudyCafePassType.FIXED, 12, 11000),
-            StudyCafeLockerPass.of(StudyCafePassType.FIXED, 4, 18000),
-            StudyCafeLockerPass.of(StudyCafePassType.HOURLY, 8, 11000),
-            StudyCafeLockerPass.of(StudyCafePassType.FIXED, 10, 11000)
-        );
+        List<StudyCafeLockerPass> list = lockerPassList();
         StudyCafeLockerPasses lockerPasses = StudyCafeLockerPasses.of(list);
 
         // when
@@ -39,18 +32,11 @@ class StudyCafeLockerPassesTest {
         assertThat(findLockerPass.getPrice()).isEqualTo(11000);
     }
 
-    @DisplayName("기간과 타입이 일치하지 사물함권이 없는 좌석권으로 찾는다.")
+    @DisplayName("좌석 패스와 기간과 타입이 동일한 사물함 패스를 찾지 못한다.")
     @Test
     void notFoundLockerPassBy() {
         // given
-        List<StudyCafeLockerPass> list = List.of(
-            StudyCafeLockerPass.of(StudyCafePassType.FIXED, 4, 11000),
-            StudyCafeLockerPass.of(StudyCafePassType.WEEKLY, 4, 17000),
-            StudyCafeLockerPass.of(StudyCafePassType.FIXED, 12, 11000),
-            StudyCafeLockerPass.of(StudyCafePassType.FIXED, 4, 18000),
-            StudyCafeLockerPass.of(StudyCafePassType.HOURLY, 8, 11000),
-            StudyCafeLockerPass.of(StudyCafePassType.FIXED, 10, 11000)
-        );
+        List<StudyCafeLockerPass> list = lockerPassList();
         StudyCafeLockerPasses lockerPasses = StudyCafeLockerPasses.of(list);
 
         // when
@@ -59,6 +45,17 @@ class StudyCafeLockerPassesTest {
 
         // then
         assertThat(optionalLockerPass).isEmpty();
+    }
+
+    private List<StudyCafeLockerPass> lockerPassList() {
+        return List.of(
+            StudyCafeLockerPass.of(StudyCafePassType.FIXED, 4, 11000),
+            StudyCafeLockerPass.of(StudyCafePassType.WEEKLY, 4, 17000),
+            StudyCafeLockerPass.of(StudyCafePassType.FIXED, 12, 11000),
+            StudyCafeLockerPass.of(StudyCafePassType.FIXED, 4, 18000),
+            StudyCafeLockerPass.of(StudyCafePassType.HOURLY, 8, 11000),
+            StudyCafeLockerPass.of(StudyCafePassType.FIXED, 10, 11000)
+        );
     }
 
 }

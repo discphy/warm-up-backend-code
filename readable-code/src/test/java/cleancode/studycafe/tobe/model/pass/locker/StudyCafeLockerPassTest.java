@@ -27,7 +27,7 @@ class StudyCafeLockerPassTest {
         assertThat(result).isEqualTo(expected);
     }
 
-    @DisplayName("주어진 타입과 사물함 패스의 타입이 일치하는지 확인한다.")
+    @DisplayName("주어진 타입과 사물함 패스의 기간이 일치하는지 확인한다.")
     @ParameterizedTest
     @CsvSource({
         "4, 12, false",
